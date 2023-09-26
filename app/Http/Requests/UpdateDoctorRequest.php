@@ -20,7 +20,7 @@ class UpdateDoctorRequest extends FormRequest
             'last_name' => ['string'],
             'email' => ['email', 'unique:users'],
             'phone' => ['string', 'unique:users'],
-            'gender' => ['string', Rule::in(User::GENDERS)],
+            'gender' => ['int', Rule::in(User::GENDERS)],
             'birthday' => ['date'],
             'password' => ['confirmed', 'min:8', 'max:50'],
             'specialty' => ['string'],

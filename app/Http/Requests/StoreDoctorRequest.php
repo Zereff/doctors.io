@@ -20,7 +20,7 @@ class StoreDoctorRequest extends FormRequest
             'last_name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:users'],
             'phone' => ['required', 'string', 'unique:users'],
-            'gender' => ['required', 'string', Rule::in(User::GENDERS)],
+            'gender' => ['required', 'int', Rule::in(User::GENDERS)],
             'birthday' => ['required', 'date'],
             'password' => ['required', 'confirmed', 'min:8', 'max:50'],
             'specialty' => ['required', 'string'],
