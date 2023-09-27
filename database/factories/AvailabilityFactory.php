@@ -15,8 +15,8 @@ class AvailabilityFactory extends Factory
         return [
             'doctor_id' => Doctor::factory(),
             'day_of_week' => $this->faker->numberBetween(1, 5),
-            'start_time' => '09:00',
-            'end_time' => '18:00',
+            'start_time' => $this->faker->time('H:i'),
+            'end_time' => $this->faker->time('H:i'),
         ];
     }
 }
