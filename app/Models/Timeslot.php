@@ -51,6 +51,8 @@ class Timeslot extends Model
 
     protected $casts = [
         'doctor_id' => 'integer',
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i',
     ];
 
     public function appointments(): BelongsToMany

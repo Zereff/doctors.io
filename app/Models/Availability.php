@@ -63,6 +63,11 @@ class Availability extends Model
         'end_time',
     ];
 
+    protected $casts = [
+        'start_time' => 'datetime:H:i',
+        'end_time' => 'datetime:H:i',
+    ];
+
     public function doctor(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
