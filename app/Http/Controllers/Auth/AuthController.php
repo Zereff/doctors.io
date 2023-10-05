@@ -17,7 +17,7 @@ class AuthController extends Controller
 
         $user = User::whereEmail($data['email'])->first();
 
-        $token = $user->createToken('admin_token')->plainTextToken;
+        $token = $user->createToken('access_token', expiresAt: now()->addDay())->plainTextToken;
 
         return response()
             ->json(['access_token' => $token])
