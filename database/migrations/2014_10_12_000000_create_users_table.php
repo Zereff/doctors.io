@@ -9,7 +9,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->numericMorphs('userable');
+            $table->id();
+            $table->nullableNumericMorphs('userable');
             $table->string('role');
             $table->string('first_name');
             $table->string('last_name');
