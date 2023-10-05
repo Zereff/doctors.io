@@ -2,18 +2,17 @@
 
 namespace App\Http\Traits;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 trait CommonQueryScope
 {
-    public function scopeGetAll(Builder $query, int $perPage = 10): LengthAwarePaginator
+    public function scopeGetAll(Builder $query, User $user, int $perPage = 10): LengthAwarePaginator
     {
-//        $user = \Auth::user();
-
-//        if ($user->isDoctor()) {
-//            return $query->where('doctor_id', $user->id)->paginate($perPage);
-//        }
+        if ($user->isDoctor()) {
+            return $query->where('doctor_id', $user->userable_id)->paginate($perPage);
+        }
 
         return $query->paginate($perPage);
     }

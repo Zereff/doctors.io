@@ -15,8 +15,9 @@ class StoreAvailabilityRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            'doctor_id' => ['required', 'int', 'exists:doctors,id'],
+        $user = \Auth::user();
+
+        $rules = [
             'day_of_week' => [
                 'required',
                 'int',
@@ -25,5 +26,11 @@ class StoreAvailabilityRequest extends FormRequest
             'start_time' => ['required', 'date_format:format,H:i'],
             'end_time' => ['required', 'date_format:format,H:i'],
         ];
+
+        if ($user->isAdmin()) {
+            $rules['doctor_id'] = ['required', 'int', 'exists:doctors,id'];
+        }
+
+        return $rules;
     }
 }

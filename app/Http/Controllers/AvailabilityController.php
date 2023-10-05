@@ -12,12 +12,19 @@ class AvailabilityController extends Controller
 {
     public function index(): AvailabilityCollection
     {
-        return new AvailabilityCollection(Availability::getAll());
+        $user = \Auth::user();
+
+        return new AvailabilityCollection(Availability::getAll($user));
     }
 
     public function store(StoreAvailabilityRequest $request): AvailabilityResource
     {
+        $user = \Auth::user();
         $data = $request->validated();
+
+        if ($user->isDoctor()) {
+            $data['doctor_id'] = $user->userable_id;
+        }
 
         $availability = Availability::create($data);
 

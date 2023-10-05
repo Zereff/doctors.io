@@ -103,13 +103,18 @@ class User extends Authenticatable
         return $this->morphTo();
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
     public function isDoctor(): bool
     {
-        return $this->userable_type === self::ROLE_DOCTOR;
+        return $this->role === self::ROLE_DOCTOR;
     }
 
     public function isPatient(): bool
     {
-        return $this->userable_type === self::ROLE_PATIENT;
+        return $this->role === self::ROLE_PATIENT;
     }
 }
