@@ -14,7 +14,7 @@ class TimeslotController extends Controller
     {
         $user = \Auth::user();
 
-        return new TimeslotCollection(Timeslot::getAll($user));
+        return new TimeslotCollection(Timeslot::with('patient.user')->getAll($user));
     }
 
     public function store(StoreTimeslotRequest $request): TimeslotResource

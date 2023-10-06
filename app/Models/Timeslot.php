@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 /**
  * App\Models\Timeslot
@@ -56,9 +56,14 @@ class Timeslot extends Model
         'end_time' => 'datetime:H:i',
     ];
 
-    public function appointments(): BelongsToMany
+    public function patient(): HasOneThrough
     {
-        return $this->belongsToMany(Patient::class);
+        return $this->hasOneThrough(
+            Patient::class,
+            Appointment::class,
+            'timeslot_id',
+            'id'
+        );
     }
 
     public function doctor(): BelongsTo

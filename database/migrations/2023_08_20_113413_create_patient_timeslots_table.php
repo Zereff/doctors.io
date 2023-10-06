@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('patient_timeslots', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('patient_id')
                 ->references('id')->on('patients')->cascadeOnDelete();
             $table->foreignId('timeslot_id')
                 ->references('id')->on('timeslots')->cascadeOnDelete();
             $table->timestamps();
-
-            $table->primary(['patient_id', 'timeslot_id']);
         });
     }
 
