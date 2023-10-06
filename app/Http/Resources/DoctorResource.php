@@ -13,6 +13,7 @@ class DoctorResource extends JsonResource
             'specialty' => $this->specialty,
             'description' => $this->description,
             'availabilities' => $this->availabilities,
+            'timeslots' => $this->timeslots,
             'user' => [
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,

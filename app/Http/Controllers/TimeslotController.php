@@ -12,12 +12,19 @@ class TimeslotController extends Controller
 {
     public function index(): TimeslotCollection
     {
-        return new TimeslotCollection(Timeslot::getAll());
+        $user = \Auth::user();
+
+        return new TimeslotCollection(Timeslot::getAll($user));
     }
 
     public function store(StoreTimeslotRequest $request): TimeslotResource
     {
+        $user = \Auth::user();
         $data = $request->validated();
+
+        if ($user->isDoctor()) {
+            $data['doctor_id'] = $user->userable_id;
+        }
 
         $timeslot = Timeslot::create($data);
 
@@ -26,7 +33,7 @@ class TimeslotController extends Controller
 
     public function show(Timeslot $timeslot): TimeslotResource
     {
-        return new TimeslotResource($timeslot);
+        return new TimeslotResource($timeslot->load('doctor.user'));
     }
 
     public function update(UpdateTimeslotRequest $request, Timeslot $timeslot): TimeslotResource

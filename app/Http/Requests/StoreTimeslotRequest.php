@@ -13,11 +13,18 @@ class StoreTimeslotRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            'doctor_id' => ['required', 'int', 'exists:doctors,id'],
+        $rules = [
             'date' => ['required', 'date_format:format,Y-m-d'],
             'start_time' => ['required', 'date_format:format,H:i'],
             'end_time' => ['required', 'date_format:format,H:i'],
         ];
+
+        $user = \Auth::user();
+
+        if ($user->isAdmin()) {
+            $rules['doctor_id'] = ['required', 'int', 'exists:doctors,id'];
+        }
+
+        return $rules;
     }
 }

@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Timeslot[] $slots
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Timeslot[] $timeslots
  * @property-read int|null $slots_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
  * @property-read int|null $tokens_count
@@ -44,7 +44,7 @@ class Doctor extends User
         'description',
     ];
 
-    public function slots(): HasMany
+    public function timeslots(): HasMany
     {
         return $this->hasMany(Timeslot::class);
     }

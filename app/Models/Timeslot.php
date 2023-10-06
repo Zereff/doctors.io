@@ -6,6 +6,7 @@ use App\Http\Traits\CommonQueryScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -34,7 +35,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Timeslot whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Timeslot whereEndTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Timeslot whereStartTime($value)
- * @method static Builder|Timeslot getAll(int $perPage = 10)
+ * @method static Builder|Timeslot getAll(User $user, int $perPage = 10)
  * @mixin \Eloquent
  */
 class Timeslot extends Model
@@ -58,5 +59,10 @@ class Timeslot extends Model
     public function appointments(): BelongsToMany
     {
         return $this->belongsToMany(Patient::class);
+    }
+
+    public function doctor(): BelongsTo
+    {
+        return $this->belongsTo(Doctor::class);
     }
 }

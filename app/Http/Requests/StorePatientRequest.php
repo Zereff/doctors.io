@@ -15,7 +15,9 @@ class StorePatientRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $user = \Auth::user();
+
+        $rules = [
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
             'email' => ['required', 'email', 'unique:users'],
@@ -23,7 +25,12 @@ class StorePatientRequest extends FormRequest
             'gender' => ['required', 'int', Rule::in(User::GENDERS)],
             'birthday' => ['required', 'date'],
             'password' => ['required', 'confirmed', 'min:8', 'max:50'],
-            'disease_history' => ['string'],
         ];
+
+        if ($user->isDoctor()) {
+            $rules['disease_history'] = ['string'];
+        }
+
+        return $rules;
     }
 }

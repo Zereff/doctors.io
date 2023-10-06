@@ -8,9 +8,9 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 trait CommonQueryScope
 {
-    public function scopeGetAll(Builder $query, User $user, int $perPage = 10): LengthAwarePaginator
+    public function scopeGetAll(Builder $query, ?User $user = null, int $perPage = 10): LengthAwarePaginator
     {
-        if ($user->isDoctor()) {
+        if ($user && $user->isDoctor()) {
             return $query->where('doctor_id', $user->userable_id)->paginate($perPage);
         }
 
