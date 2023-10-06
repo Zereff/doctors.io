@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\DoctorController;
@@ -58,5 +59,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/timeslots', 'store');
         Route::patch('/timeslots/{timeslot}', 'update');
         Route::delete('/timeslots/{timeslot}', 'destroy');
+    });
+
+    Route::controller(AppointmentController::class)->group(function () {
+        Route::get('/appointments', 'index');
+        Route::post('/appointments', 'store');
     });
 });
