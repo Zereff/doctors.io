@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Appointment extends Model
 {
@@ -15,4 +16,9 @@ class Appointment extends Model
         'patient_id',
         'timeslot_id'
     ];
+
+    public function timeslot(): BelongsTo
+    {
+        return $this->belongsTo(Timeslot::class);
+    }
 }

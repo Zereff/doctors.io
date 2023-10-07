@@ -12,7 +12,7 @@ class AppointmentController extends Controller
 {
     public function index(): AppointmentCollection
     {
-        return new AppointmentCollection(Appointment::paginate());
+        return new AppointmentCollection(Appointment::with('timeslot')->paginate());
     }
 
     public function store(StoreAppointmentRequest $request): AppointmentResource
@@ -22,12 +22,15 @@ class AppointmentController extends Controller
         /** @var Patient $patient */
         $patient = Patient::findOrFail($data['patient_id']);
 
-        $patient->appointments()->create([
+        $appointment = $patient->appointments()->create([
             'timeslot_id' => $data['timeslot_id']
         ]);
 
-        return new AppointmentResource(
-            $patient->load('appointments')
-        );
+        return new AppointmentResource($appointment->load('timeslot'));
+    }
+
+    public function destroy(Appointment $appointment): void
+    {
+        $appointment->delete();
     }
 }

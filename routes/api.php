@@ -64,5 +64,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::controller(AppointmentController::class)->group(function () {
         Route::get('/appointments', 'index');
         Route::post('/appointments', 'store');
+        Route::delete('/appointments/{appointment}', 'destroy');
     });
 });

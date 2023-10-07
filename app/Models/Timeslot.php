@@ -62,7 +62,8 @@ class Timeslot extends Model
             Patient::class,
             Appointment::class,
             'timeslot_id',
-            'id'
+            'id',
+            secondLocalKey: 'patient_id',
         );
     }
 
