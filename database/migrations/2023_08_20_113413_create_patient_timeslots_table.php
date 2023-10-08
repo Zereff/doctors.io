@@ -17,6 +17,7 @@ return new class extends Migration
                 ->references('id')->on('patients')->cascadeOnDelete();
             $table->foreignId('timeslot_id')
                 ->references('id')->on('timeslots')->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
