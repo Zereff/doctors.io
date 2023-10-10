@@ -2,17 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Models\Availability;
 use App\Models\Doctor;
 use App\Models\Timeslot;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Tests\Traits\ActAsLoggedUser;
 
 class TimeslotControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
+    use ActAsLoggedUser;
 
     public function testIndex(): void
     {

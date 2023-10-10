@@ -7,11 +7,13 @@ use App\Models\Doctor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Tests\Traits\ActAsLoggedUser;
 
 class AvailabilityControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
+    use ActAsLoggedUser;
 
     public function testIndex(): void
     {

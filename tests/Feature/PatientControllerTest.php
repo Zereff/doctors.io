@@ -2,17 +2,18 @@
 
 namespace Tests\Feature;
 
-use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Tests\Traits\ActAsLoggedUser;
 
 class PatientControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
+    use ActAsLoggedUser;
 
     public function testIndex(): void
     {
@@ -45,6 +46,7 @@ class PatientControllerTest extends TestCase
 
     public function testStore(): void
     {
+        $this->actAsUser(User::ROLE_DOCTOR);
         $this->withoutExceptionHandling();
 
         $data = [
