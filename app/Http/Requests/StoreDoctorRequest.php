@@ -2,15 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class StoreDoctorRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('create', Doctor::class);
     }
 
     public function rules(): array
