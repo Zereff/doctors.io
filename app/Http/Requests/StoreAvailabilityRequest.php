@@ -4,13 +4,14 @@ namespace App\Http\Requests;
 
 use App\Models\Availability;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class StoreAvailabilityRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('create', Availability::class);
     }
 
     public function rules(): array

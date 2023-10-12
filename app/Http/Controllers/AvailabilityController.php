@@ -12,6 +12,8 @@ class AvailabilityController extends Controller
 {
     public function index(): AvailabilityCollection
     {
+        $this->authorize('viewAny', Availability::class);
+
         $user = \Auth::user();
 
         return new AvailabilityCollection(Availability::getAll($user));
@@ -33,6 +35,8 @@ class AvailabilityController extends Controller
 
     public function show(Availability $availability): AvailabilityResource
     {
+        $this->authorize('view', $availability);
+
         return new AvailabilityResource($availability);
     }
 
@@ -47,6 +51,8 @@ class AvailabilityController extends Controller
 
     public function destroy(Availability $availability): ?bool
     {
+        $this->authorize('delete', $availability);
+
         return $availability->delete();
     }
 }

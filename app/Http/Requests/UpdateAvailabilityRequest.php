@@ -3,12 +3,13 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class UpdateAvailabilityRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('update', $this->route('availability'));
     }
 
     public function rules(): array
