@@ -2,15 +2,17 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class StorePatientRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('create', Patient::class);
     }
 
     public function rules(): array

@@ -15,6 +15,8 @@ class PatientController extends Controller
 {
     public function index(): PatientCollection
     {
+        $this->authorize('viewAny', Patient::class);
+
         return new PatientCollection(Patient::paginate(10));
     }
 
@@ -32,6 +34,8 @@ class PatientController extends Controller
 
     public function show(Patient $patient): PatientResource
     {
+        $this->authorize('view', Patient::class);
+
         return new PatientResource($patient);
     }
 
@@ -46,6 +50,8 @@ class PatientController extends Controller
 
     public function destroy(Patient $patient, PatientService $service): void
     {
+        $this->authorize('view', Patient::class);
+
         $service->destroy($patient);
     }
 }
