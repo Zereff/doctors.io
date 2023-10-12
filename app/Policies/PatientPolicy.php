@@ -15,9 +15,10 @@ class PatientPolicy
         return $user->isAdmin();
     }
 
-    public function view(User $user): bool
+    public function view(User $user, Patient $patient): bool
     {
-        return $user->isAdmin() || $user->isPatient();
+        return $user->isAdmin()
+            || ($user->isPatient() && $user->userable_id === $patient->id);
     }
 
     public function create(User $user): bool
@@ -27,7 +28,8 @@ class PatientPolicy
 
     public function update(User $user, Patient $patient): bool
     {
-        return $user->isAdmin() || $user->userable_id === $patient->id;
+        return $user->isAdmin()
+            || ($user->isPatient() && $user->userable_id === $patient->id);
     }
 
     public function delete(User $user): bool
