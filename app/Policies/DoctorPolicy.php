@@ -17,7 +17,8 @@ class DoctorPolicy
 
     public function update(User $user, Doctor $doctor): bool
     {
-        return $user->isAdmin() || $user->userable_id === $doctor->id;
+        return $user->isAdmin()
+            || ($user->isDoctor() && $user->userable_id === $doctor->id);
     }
 
     public function delete(User $user): bool
