@@ -25,11 +25,6 @@ Route::controller(DoctorController::class)->group(function () {
     Route::get('/doctors/{doctor}', 'show');
 });
 
-Route::controller(TimeslotController::class)->group(function () {
-    Route::get('/timeslots', 'index');
-    Route::get('/timeslots/{timeslot}', 'show');
-});
-
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -56,7 +51,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::controller(TimeslotController::class)->group(function () {
+        Route::get('/timeslots', 'index');
         Route::post('/timeslots', 'store');
+        Route::get('/timeslots/{timeslot}', 'show');
         Route::patch('/timeslots/{timeslot}', 'update');
         Route::delete('/timeslots/{timeslot}', 'destroy');
     });
