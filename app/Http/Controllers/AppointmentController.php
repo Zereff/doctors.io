@@ -12,6 +12,8 @@ class AppointmentController extends Controller
 {
     public function index(): AppointmentCollection
     {
+        $this->authorize('viewAny', Appointment::class);
+
         $user = \Auth::user();
         $appointments = Appointment::where('patient_id', $user->userable_id)->with('timeslot');
 
@@ -36,6 +38,8 @@ class AppointmentController extends Controller
 
     public function destroy(Appointment $appointment): void
     {
+        $this->authorize('delete', $appointment);
+
         $appointment->delete();
     }
 }
