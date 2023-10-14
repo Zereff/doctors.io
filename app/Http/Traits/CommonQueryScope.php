@@ -11,9 +11,9 @@ trait CommonQueryScope
     public function scopeGetAll(Builder $query, ?User $user = null, int $perPage = 10): LengthAwarePaginator
     {
         if ($user && $user->isDoctor()) {
-            return $query->where('doctor_id', $user->userable_id)->paginate($perPage);
+            $query->where('doctor_id', $user->userable_id);
         }
 
-        return $query->paginate($perPage);
+        return $query->orderBy('doctor_id')->paginate($perPage);
     }
 }
