@@ -15,7 +15,7 @@ class PatientController extends Controller
 {
     public function index(): PatientCollection
     {
-        $this->authorize('viewAny', Patient::class);
+        $this->authorize('before', Patient::class);
 
         return new PatientCollection(Patient::paginate(10));
     }
@@ -50,7 +50,7 @@ class PatientController extends Controller
 
     public function destroy(Patient $patient, PatientService $service): void
     {
-        $this->authorize('view', Patient::class);
+        $this->authorize('before', Patient::class);
 
         $service->destroy($patient);
     }
