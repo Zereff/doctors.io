@@ -3,12 +3,13 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class UpdateTimeslotRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('before', $this->route('timeslot'));
     }
 
     public function rules(): array

@@ -2,13 +2,15 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Timeslot;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 class StoreTimeslotRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('create', Timeslot::class);
     }
 
     public function rules(): array

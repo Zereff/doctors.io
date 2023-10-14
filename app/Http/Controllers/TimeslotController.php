@@ -12,9 +12,11 @@ class TimeslotController extends Controller
 {
     public function index(): TimeslotCollection
     {
+        $this->authorize('viewAny', Timeslot::class);
+
         $user = \Auth::user();
 
-        return new TimeslotCollection(Timeslot::with('patient.user')->getAll($user));
+        return new TimeslotCollection(Timeslot::getAll($user));
     }
 
     public function store(StoreTimeslotRequest $request): TimeslotResource
@@ -33,6 +35,8 @@ class TimeslotController extends Controller
 
     public function show(Timeslot $timeslot): TimeslotResource
     {
+        $this->authorize('view', $timeslot);
+
         return new TimeslotResource($timeslot->load('doctor.user'));
     }
 
@@ -47,6 +51,8 @@ class TimeslotController extends Controller
 
     public function destroy(Timeslot $timeslot): void
     {
+        $this->authorize('before', $timeslot);
+
         $timeslot->delete();
     }
 }
