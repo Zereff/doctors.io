@@ -12,15 +12,20 @@ class AppointmentController extends Controller
 {
     public function index(): AppointmentCollection
     {
-        return new AppointmentCollection(Appointment::with('timeslot')->paginate());
+        $user = \Auth::user();
+        $appointments = Appointment::where('patient_id', $user->userable_id)->with('timeslot');
+
+        return new AppointmentCollection($appointments->paginate());
     }
 
     public function store(StoreAppointmentRequest $request): AppointmentResource
     {
         $data = $request->validated();
 
+        $patientId = \Auth::user()->userable_id;
+
         /** @var Patient $patient */
-        $patient = Patient::findOrFail($data['patient_id']);
+        $patient = Patient::findOrFail($patientId);
 
         $appointment = $patient->appointments()->create([
             'timeslot_id' => $data['timeslot_id']
