@@ -5,11 +5,9 @@ namespace App\Policies;
 use App\Http\Traits\AdminAccessAbility;
 use App\Models\Availability;
 use App\Models\User;
-use Illuminate\Auth\Access\HandlesAuthorization;
 
 class AvailabilityPolicy
 {
-    use HandlesAuthorization;
     use AdminAccessAbility;
 
     public function viewAny(User $user): bool
