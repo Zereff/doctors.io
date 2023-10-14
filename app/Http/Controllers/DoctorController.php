@@ -45,7 +45,7 @@ class DoctorController extends Controller
 
     public function destroy(Doctor $doctor, DoctorService $service): void
     {
-        $this->authorize('delete', $doctor);
+        $this->authorize('before', $doctor);
 
         $service->destroy($doctor);
     }

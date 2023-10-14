@@ -12,7 +12,7 @@ class StoreDoctorRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return Gate::allows('create', Doctor::class);
+        return Gate::allows('before', Doctor::class);
     }
 
     public function rules(): array

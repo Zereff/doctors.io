@@ -2,24 +2,16 @@
 
 namespace App\Policies;
 
+use App\Http\Traits\AdminAccessAbility;
 use App\Models\Doctor;
 use App\Models\User;
 
 class DoctorPolicy
 {
-    public function create(User $user): bool
-    {
-        return $user->isAdmin();
-    }
+    use AdminAccessAbility;
 
     public function update(User $user, Doctor $doctor): bool
     {
-        return $user->isAdmin()
-            || ($user->isDoctor() && $user->userable_id === $doctor->id);
-    }
-
-    public function delete(User $user): bool
-    {
-        return $user->isAdmin();
+        return $user->isDoctor() && $user->userable_id === $doctor->id;
     }
 }
