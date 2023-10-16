@@ -8,13 +8,13 @@ use App\Models\Timeslot;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Tests\Traits\ActAsLoggedUser;
+use Tests\Traits\ActAsPatient;
 
 class AppointmentControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
-    use ActAsLoggedUser;
+    use ActAsPatient;
 
     public function testIndex(): void
     {
@@ -41,11 +41,9 @@ class AppointmentControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $patient = Patient::factory()->create();
         $timeslot = Timeslot::factory()->create();
 
         $data = [
-            'patient_id' => $patient->id,
             'timeslot_id' => $timeslot->id,
         ];
 
@@ -56,7 +54,6 @@ class AppointmentControllerTest extends TestCase
         $this->assertDatabaseHas('patient_timeslots', $data);
 
         $response->assertJson([
-            'patient_id' => $data['patient_id'],
             'timeslot_id' => $data['timeslot_id'],
         ]);
     }
@@ -65,7 +62,9 @@ class AppointmentControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $appointment = Appointment::factory()->create();
+        $user = \Auth::user();
+        $patient = Patient::findOrFail($user->userable_id);
+        $appointment = Appointment::factory()->create(['patient_id' => $patient->id]);
 
         $response = $this->delete('/api/appointments/' . $appointment->id);
 
