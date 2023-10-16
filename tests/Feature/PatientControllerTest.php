@@ -2,18 +2,19 @@
 
 namespace Tests\Feature;
 
+use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Tests\Traits\ActAsLoggedUser;
+use Tests\Traits\ActAsAdmin;
 
 class PatientControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
-    use ActAsLoggedUser;
+    use ActAsAdmin;
 
     public function testIndex(): void
     {
@@ -46,7 +47,6 @@ class PatientControllerTest extends TestCase
 
     public function testStore(): void
     {
-        $this->actAsUser(User::ROLE_DOCTOR);
         $this->withoutExceptionHandling();
 
         $data = [
@@ -58,16 +58,11 @@ class PatientControllerTest extends TestCase
             'birthday' => $this->faker->date(),
             'password' => 'password',
             'password_confirmation' => 'password',
-            'disease_history' => 'Some disease history',
         ];
 
         $response = $this->post('/api/patients', $data);
 
         $response->assertStatus(201);
-
-        $this->assertDatabaseHas('patients', [
-            'disease_history' => $data['disease_history'],
-        ]);
 
         $this->assertDatabaseHas('users', [
             'role' => User::ROLE_PATIENT,
@@ -80,7 +75,7 @@ class PatientControllerTest extends TestCase
         ]);
 
         $response->assertJson([
-            'disease_history' => $data['disease_history'],
+            'disease_history' => null,
             'user' => [
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
@@ -96,10 +91,9 @@ class PatientControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $patient = Patient::factory()->has(User::factory())->create();
+        $patient = Patient::factory()->has(User::factory())->create(['disease_history' => null]);
 
         $data = [
-            'disease_history' => 'Updated disease history',
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->safeEmail,
@@ -114,7 +108,6 @@ class PatientControllerTest extends TestCase
 
         $patient->refresh();
 
-        $this->assertEquals($data['disease_history'], $patient->disease_history);
         $this->assertEquals($data['first_name'], $patient->user->first_name);
         $this->assertEquals($data['last_name'], $patient->user->last_name);
         $this->assertEquals($data['email'], $patient->user->email);
@@ -123,7 +116,6 @@ class PatientControllerTest extends TestCase
         $this->assertEquals($data['birthday'], $patient->user->birthday);
 
         $response->assertJson([
-            'disease_history' => $data['disease_history'],
             'user' => [
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
@@ -132,6 +124,29 @@ class PatientControllerTest extends TestCase
                 'gender' => $data['gender'],
                 'birthday' => $data['birthday'],
             ],
+        ]);
+    }
+
+    public function testUpdateActedAsDoctor()
+    {
+        $this->withoutExceptionHandling();
+        $this->actAsDoctor();
+
+        $patient = Patient::factory()->has(User::factory())->create();
+
+        $data = [
+            'disease_history' => $this->faker->text,
+        ];
+
+        $response = $this->patch('/api/patients/' . $patient->id, $data);
+        $response->assertStatus(200);
+
+        $patient->refresh();
+
+        $this->assertEquals($data['disease_history'], $patient->disease_history);
+
+        $response->assertJson([
+            'disease_history' => $data['disease_history'],
         ]);
     }
 
@@ -171,5 +186,13 @@ class PatientControllerTest extends TestCase
 
         $this->assertDatabaseMissing('patients', ['id' => $patient->id]);
         $this->assertDatabaseMissing('users', ['userable_id' => $user->userable_id]);
+    }
+
+    private function actAsDoctor(): void
+    {
+        $doctor = Doctor::factory()->has(User::factory())->create();
+        $user = $doctor->user;
+
+        $this->actingAs($user);
     }
 }
