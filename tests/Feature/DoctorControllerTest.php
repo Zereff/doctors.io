@@ -7,13 +7,13 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
-use Tests\Traits\ActAsLoggedUser;
+use Tests\Traits\ActAsAdmin;
 
 class DoctorControllerTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
-    use ActAsLoggedUser;
+    use ActAsAdmin;
 
     public function testIndex(): void
     {
