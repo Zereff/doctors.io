@@ -16,15 +16,22 @@ class UpdatePatientRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
-            'first_name' => ['string'],
-            'last_name' => ['string'],
-            'email' => ['email', 'unique:users'],
-            'phone' => ['string', 'unique:users'],
-            'gender' => ['int', Rule::in(User::GENDERS)],
-            'birthday' => ['date'],
-            'password' => ['confirmed', 'min:8', 'max:50'],
-            'disease_history' => ['string'],
-        ];
+        $user = \Auth::user();
+
+        if (! $user->isDoctor()) {
+            $rules =  [
+                'first_name' => ['string'],
+                'last_name' => ['string'],
+                'email' => ['email', 'unique:users'],
+                'phone' => ['string', 'unique:users'],
+                'gender' => ['int', Rule::in(User::GENDERS)],
+                'birthday' => ['date'],
+                'password' => ['confirmed', 'min:8', 'max:50'],
+            ];
+        } else {
+            $rules['disease_history'] = ['string'];
+        }
+
+        return $rules;
     }
 }
