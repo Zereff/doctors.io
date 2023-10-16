@@ -4,21 +4,21 @@ namespace Tests\Traits;
 
 use App\Models\User;
 
-trait ActAsLoggedUser
+trait ActAsAdmin
 {
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->actAsUser();
+        $this->actAsAdmin();
     }
 
-    public function actAsUser(string $role = User::ROLE_ADMIN)
+    public function actAsAdmin(): void
     {
         $user = User::factory()->create([
             'userable_id' => null,
             'userable_type' => null,
-            'role' => $role,
+            'role' => User::ROLE_ADMIN,
         ]);
 
         $this->actingAs($user);
