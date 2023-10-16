@@ -17,6 +17,7 @@ class PatientPolicy
 
     public function update(User $user, Patient $patient): bool
     {
-        return $user->isPatient() && $user->userable_id === $patient->id;
+        return $user->isDoctor()
+            || ($user->isPatient() && $user->userable_id === $patient->id);
     }
 }
