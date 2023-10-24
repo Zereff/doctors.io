@@ -1,0 +1,72 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
+type User {
+    id: ID!
+    role: String!
+    first_name: String!
+    last_name: String!
+    email: String!
+    phone: String!
+    gender: Boolean!
+    birthday: Date
+    email_verified_at: DateTime
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Patient {
+    id: ID!
+    disease_history: String
+    user: User! @morphOne
+}
+
+type Doctor {
+    id: ID!
+    specialty: String!
+    description: String
+    user: User! @morphOne
+}
+
+type Query {
+    patient(id: ID! @eq): Patient @find
+    patients: [Patient!]! @paginate(defaultCount: 10)
+
+    doctor(id: ID! @eq): Doctor @find
+    doctors: [Doctor!]! @paginate(defaultCount: 10)
+
+    me: User @auth
+}
+
+input CreateUserInput {
+    first_name: String!
+    last_name: String!
+    email: String!
+    phone: String!
+    gender: Boolean!
+    birthday: Date
+    password: String!
+    password_confirmation: String!
+}
+
+input UpdateUserInput {
+    first_name: String
+    last_name: String
+    email: String
+    phone: String
+    gender: Boolean
+    birthday: Date
+    password: String
+    password_confirmation: String
+}
+
+type Mutation {
+    createPatient(disease_history: String, user: CreateUserInput!): Patient @create
+    updatePatient(id: ID! @eq, disease_history: String, user: UpdateUserInput): Patient @update
+    deletePatient(id: ID! @eq): Patient @delete
+
+    createDoctor(specialty: String!, description: String, user: CreateUserInput!): Doctor @create
+    updateDoctor(id: ID! @eq, specialty: String, description: String, user: UpdateUserInput): Doctor @update
+    deleteDoctor(id: ID! @eq): Doctor @delete
+}
