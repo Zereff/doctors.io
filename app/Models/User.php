@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -58,24 +59,6 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
 
-    public const ROLE_DOCTOR = 'doctor';
-    public const ROLE_PATIENT = 'patient';
-    public const ROLE_ADMIN = 'admin';
-
-    public const GENDER_MALE = 1;
-    public const GENDER_FEMALE = 0;
-
-    public const ROLES = [
-        self::ROLE_DOCTOR,
-        self::ROLE_PATIENT,
-        self::ROLE_ADMIN,
-    ];
-
-    public const GENDERS = [
-        self::GENDER_MALE,
-        self::GENDER_FEMALE,
-    ];
-
     protected $fillable = [
         'userable_id',
         'userable_type',
@@ -107,16 +90,16 @@ class User extends Authenticatable
 
     public function isAdmin(): bool
     {
-        return $this->role === self::ROLE_ADMIN;
+        return $this->role === Role::Admin->value;
     }
 
     public function isDoctor(): bool
     {
-        return $this->role === self::ROLE_DOCTOR;
+        return $this->role === Role::Doctor->value;
     }
 
     public function isPatient(): bool
     {
-        return $this->role === self::ROLE_PATIENT;
+        return $this->role === Role::Patient->value;
     }
 }

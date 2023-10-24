@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Gender;
+use App\Enums\Role;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -54,7 +56,7 @@ class DoctorControllerTest extends TestCase
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->safeEmail,
             'phone' => $this->faker->phoneNumber,
-            'gender' => User::GENDER_MALE,
+            'gender' => Gender::Male->value,
             'birthday' => $this->faker->date(),
             'password' => 'password',
             'password_confirmation' => 'password',
@@ -72,7 +74,7 @@ class DoctorControllerTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('users', [
-            'role' => User::ROLE_DOCTOR,
+            'role' => Role::Doctor->value,
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
@@ -108,7 +110,7 @@ class DoctorControllerTest extends TestCase
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->safeEmail,
             'phone' => $this->faker->phoneNumber,
-            'gender' => User::GENDER_MALE,
+            'gender' => Gender::Male->value,
             'birthday' => $this->faker->date(),
         ];
 

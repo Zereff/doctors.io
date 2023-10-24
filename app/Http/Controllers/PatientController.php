@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
 use App\Http\Resources\PatientCollection;
 use App\Http\Resources\PatientResource;
 use App\Http\Services\PatientService;
 use App\Models\Patient;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
@@ -24,7 +24,7 @@ class PatientController extends Controller
     {
         $data = $request->validated();
 
-        $data['role'] = User::ROLE_PATIENT;
+        $data['role'] = Role::Patient->value;
         $data['password'] = Hash::make($request->input('password'));
 
         $patient = $service->store($data);

@@ -2,6 +2,7 @@
 
 namespace Tests\Traits;
 
+use App\Enums\Role;
 use App\Models\User;
 
 trait ActAsAdmin
@@ -18,7 +19,7 @@ trait ActAsAdmin
         $user = User::factory()->create([
             'userable_id' => null,
             'userable_type' => null,
-            'role' => User::ROLE_ADMIN,
+            'role' => Role::Admin->value,
         ]);
 
         $this->actingAs($user);

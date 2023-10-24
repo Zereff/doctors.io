@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\Gender;
+use App\Enums\Role;
 use App\Models\Doctor;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -16,12 +18,12 @@ class UserFactory extends Factory
         return [
             'userable_id' => User::factory(),
             'userable_type' => Doctor::class,
-            'role' => User::ROLE_DOCTOR,
-            'first_name' => fake()->firstName(User::GENDER_MALE),
+            'role' => Role::Doctor->value,
+            'first_name' => fake()->firstName(Gender::Male->value),
             'last_name' => fake()->lastName(),
             'email' => fake()->unique()->safeEmail(),
             'phone' => fake()->unique()->phoneNumber(),
-            'gender' => User::GENDER_MALE,
+            'gender' => Gender::Male->value,
             'birthday' => $this->faker->date(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
         ];

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Enums\Gender;
+use App\Enums\Role;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\User;
@@ -54,7 +56,7 @@ class PatientControllerTest extends TestCase
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->safeEmail,
             'phone' => $this->faker->phoneNumber,
-            'gender' => User::GENDER_MALE,
+            'gender' => Gender::Male->value,
             'birthday' => $this->faker->date(),
             'password' => 'password',
             'password_confirmation' => 'password',
@@ -65,7 +67,7 @@ class PatientControllerTest extends TestCase
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('users', [
-            'role' => User::ROLE_PATIENT,
+            'role' => Role::Patient->value,
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
             'email' => $data['email'],
@@ -98,7 +100,7 @@ class PatientControllerTest extends TestCase
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->safeEmail,
             'phone' => $this->faker->phoneNumber,
-            'gender' => User::GENDER_MALE,
+            'gender' => Gender::Male->value,
             'birthday' => $this->faker->date(),
         ];
 

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\User;
+use App\Enums\Gender;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class UpdateDoctorRequest extends FormRequest
 {
@@ -21,7 +21,7 @@ class UpdateDoctorRequest extends FormRequest
             'last_name' => ['string'],
             'email' => ['email', 'unique:users'],
             'phone' => ['string', 'unique:users'],
-            'gender' => ['int', Rule::in(User::GENDERS)],
+            'gender' => [new Enum(Gender::class)],
             'birthday' => ['date'],
             'password' => ['confirmed', 'min:8', 'max:50'],
             'specialty' => ['string'],

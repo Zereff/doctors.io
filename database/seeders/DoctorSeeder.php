@@ -10,7 +10,12 @@ class DoctorSeeder extends Seeder
 {
     public function run()
     {
-        Doctor::factory(5)
+        Doctor::factory()
+            ->hasUser(['email' => 'doctor@doctor.io'])
+            ->has(Availability::factory(1))
+            ->create();
+
+        Doctor::factory(4)
             ->hasUser()
             ->has(Availability::factory(1))
             ->create();

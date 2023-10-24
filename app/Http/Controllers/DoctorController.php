@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Http\Requests\StoreDoctorRequest;
 use App\Http\Requests\UpdateDoctorRequest;
 use App\Http\Resources\DoctorCollection;
 use App\Http\Resources\DoctorResource;
 use App\Http\Services\DoctorService;
 use App\Models\Doctor;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
 class DoctorController extends Controller
@@ -21,7 +21,7 @@ class DoctorController extends Controller
     public function store(StoreDoctorRequest $request, DoctorService $service): DoctorResource
     {
         $data = $request->validated();
-        $data['role'] = User::ROLE_DOCTOR;
+        $data['role'] = Role::Doctor->value;
         $data['password'] = Hash::make($request->input('password'));
 
         $doctor = $service->store($data);

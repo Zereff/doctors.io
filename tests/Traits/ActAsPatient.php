@@ -2,6 +2,7 @@
 
 namespace Tests\Traits;
 
+use App\Enums\Role;
 use App\Models\Patient;
 use App\Models\User;
 
@@ -19,7 +20,7 @@ trait ActAsPatient
         $user = User::factory()->create([
             'userable_id' => Patient::factory(),
             'userable_type' => Patient::class,
-            'role' => User::ROLE_PATIENT,
+            'role' => Role::Patient->value,
         ]);
 
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\DayOfWeek;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('doctor_id')
                 ->references('id')->on('doctors')->cascadeOnDelete();
-            $table->unsignedTinyInteger('day_of_week');
+            $table->enum('day_of_week', DayOfWeek::values());
             $table->time('start_time');
             $table->time('end_time');
             $table->timestamps();
